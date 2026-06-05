@@ -15,3 +15,7 @@ All notable changes are documented here. Format: Keep a Changelog; SemVer.
 - Phase 6 AI Gateway: provider-agnostic, multi-key Gemini pool (round-robin + failover).
 - Story Chat: project-aware chat with retrieval context.
 - Settings: AI key management, theme.
+- Phase 7 AI writing tools: selection-based rewrite/expand/condense/summarize/improve-dialogue (suggestion-only).
+- Phase 14 Export: manuscript TXT/Markdown and full JSON project backup.
+- Phase 5 Timeline engine: story events with chronological ordering and free-form date labels.
+- docs/DEPLOYMENT.md: Cloudflare Pages auto-deploy configuration.

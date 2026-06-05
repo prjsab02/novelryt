@@ -1,8 +1,9 @@
-import { useEffect, useMemo, useState, useCallback } from 'react';
+import { useEffect, useMemo, useRef, useState, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
 import { useEditorStore } from './store';
 import { Button, Input, EmptyState } from '@/components/ui';
 import { countWords, debounce, cx } from '@/lib/utils';
+import AiAssistPanel from './AiAssistPanel';
 
 type SaveState = 'saved' | 'saving' | 'idle';
 
@@ -13,6 +14,8 @@ export default function EditorPage() {
   const [activeId, setActiveId] = useState<string | null>(null);
   const [draft, setDraft] = useState('');
   const [saveState, setSaveState] = useState<SaveState>('idle');
+  const [selection, setSelection] = useState({ start: 0, end: 0 });
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   useEffect(() => {
     if (projectId) void load(projectId);
@@ -63,6 +66,23 @@ export default function EditorPage() {
   async function handleNewChapter() {
     const ch = await createChapter('');
     setActiveId(ch.id);
+  }
+
+  function syncSelection() {
+    const el = textareaRef.current;
+    if (el) setSelection({ start: el.selectionStart, end: el.selectionEnd });
+  }
+
+  const selectedText = draft.slice(selection.start, selection.end);
+
+  // Replace the current selection (or insert at cursor) with AI output, then save.
+  function applyText(text: string, mode: 'replace' | 'insert') {
+    const { start, end } = selection;
+    const next =
+      mode === 'replace'
+        ? draft.slice(0, start) + text + draft.slice(end)
+        : draft.slice(0, end) + '\n\n' + text + draft.slice(end);
+    onChange(next);
   }
 
   const liveWordCount = countWords(draft);
@@ -151,11 +171,20 @@ export default function EditorPage() {
               </div>
             </header>
             <textarea
+              ref={textareaRef}
               className="manuscript flex-1 resize-none bg-transparent p-6 focus:outline-none"
               value={draft}
               onChange={(e) => onChange(e.target.value)}
+              onSelect={syncSelection}
+              onKeyUp={syncSelection}
+              onMouseUp={syncSelection}
               placeholder="Begin writing…"
               spellCheck
+            />
+            <AiAssistPanel
+              selection={selectedText}
+              onReplace={(t) => applyText(t, 'replace')}
+              onInsert={(t) => applyText(t, 'insert')}
             />
           </>
         ) : (

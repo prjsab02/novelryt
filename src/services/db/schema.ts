@@ -8,6 +8,7 @@ import type {
   Location,
   Note,
   ChatSession,
+  StoryEvent,
 } from '@/types';
 
 /**
@@ -24,6 +25,7 @@ export class NovelRytDB extends Dexie {
   locations!: Table<Location, string>;
   notes!: Table<Note, string>;
   chatSessions!: Table<ChatSession, string>;
+  events!: Table<StoryEvent, string>;
 
   constructor() {
     super('novelryt');
@@ -36,6 +38,10 @@ export class NovelRytDB extends Dexie {
       locations: 'id, projectId, name',
       notes: 'id, projectId, type, pinned',
       chatSessions: 'id, projectId, mode, updatedAt',
+    });
+    // v2: add timeline events (Phase 5). Additive — no migration of existing data.
+    this.version(2).stores({
+      events: 'id, projectId, sequence',
     });
   }
 }

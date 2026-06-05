@@ -90,6 +90,17 @@ export interface Note extends BaseEntity {
   pinned: boolean;
 }
 
+export interface StoryEvent extends BaseEntity {
+  projectId: string;
+  title: string;
+  description: string;
+  /** Free-form in-story date (fictional calendars vary), e.g. "Year 3, Spring". */
+  dateLabel: string;
+  /** Chronological ordering key within the project timeline. */
+  sequence: number;
+  participants: string;
+}
+
 export type ChatMode = 'story' | 'research' | 'hybrid' | 'writing';
 
 export interface ChatMessage {

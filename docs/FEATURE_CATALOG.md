@@ -19,10 +19,11 @@
 | FEATURE-011 | AI Gateway (multi-key) | Implemented | High | §50–§51, §263–§271 | round-robin + failover |
 | FEATURE-012 | Story Chat | Implemented | High | §53, §246 | project-aware, retrieval context |
 | FEATURE-013 | Settings (AI keys, theme) | Implemented | High | §281, §323 | keys stored locally |
-| FEATURE-020 | Timeline engine | Planned | High | §159–§165 | next |
-| FEATURE-021 | AI writing tools (rewrite/expand/condense) | Planned | High | §57–§61 | via gateway |
+| FEATURE-020 | Timeline engine | Implemented | High | §159–§165 | events CRUD + chronological view; conflict-detection pending |
+| FEATURE-021 | AI writing tools (rewrite/expand/condense/summarize/dialogue) | Implemented | High | §57–§61 | selection-based, suggestion-only |
 | FEATURE-022 | Diagnostics (consistency/plot holes/arcs) | Planned | High | Part 6 | |
-| FEATURE-023 | Import/Export (TXT/MD/DOCX/PDF/JSON) | Planned | High | §128–§131 | |
+| FEATURE-023 | Export (TXT/MD/JSON backup) | Implemented | High | §128–§131 | DOCX/PDF/EPUB + import pending |
+| FEATURE-026 | Deployment: GitHub + Cloudflare Pages | In Progress | High | §408–§411 | repo pushed; connect in CF dashboard (docs/DEPLOYMENT.md) |
 | FEATURE-024 | Firebase sync adapter | Planned | High | §380–§388 | implements StorageAdapter |
 | FEATURE-025 | Knowledge/relationship graph | Planned | Medium | §170, §182 | React Flow |
 | FEATURE-030 | Collaboration | Planned | Low | §114–§120 | post-MVP |

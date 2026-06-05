@@ -18,14 +18,22 @@
 - **Phase 6 — AI Gateway (foundation)**: provider-agnostic gateway, multi-key
   Gemini pool with round-robin + failover; Story Chat (project-aware) UI.
 
+- **Phase 5 — Timeline**: events CRUD + chronological view (sequence + free-form
+  date labels). Conflict detection pending.
+- **Phase 7 — AI writing tools**: selection-based rewrite / expand / condense /
+  summarize / improve-dialogue in the editor; suggestion-only (Replace/Insert).
+- **Phase 14 — Export**: manuscript TXT/Markdown + full JSON backup.
+- **Deployment**: repo initialized + pushed to github.com/prjsab02/novelryt;
+  Cloudflare Pages settings documented in docs/DEPLOYMENT.md (connect in dashboard).
+
 ## In progress
 
-- Wiring AI Gateway responses into Story Chat with retrieval context.
+- Cloudflare Pages connection (manual dashboard step by repo owner).
 
 ## Pending (next)
 
-- Timeline engine (Phase 5), AI writing tools rewrite/expand (Phase 7),
-  diagnostics (Phase 8), exports (Phase 14), Firebase sync adapter, tests.
+- Diagnostics (Phase 8), import + DOCX/PDF/EPUB export, Firebase auth+sync
+  adapter, organizations/lore entities, knowledge graph, broader tests.
 
 ## Blockers
 

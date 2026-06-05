@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { Card } from '@/components/ui';
+import { Card, Button } from '@/components/ui';
 import { projectsRepo, chaptersRepo, charactersRepo } from '@/services/db/repositories';
+import { exportProject, type ExportFormat } from '@/features/export/export-service';
 import type { Project } from '@/types';
 
 export default function ProjectDashboard() {
@@ -38,6 +39,7 @@ export default function ProjectDashboard() {
   const links = [
     { to: `/projects/${project.id}/write`, title: 'Write', desc: 'Open the manuscript editor' },
     { to: `/projects/${project.id}/bible`, title: 'Story Bible', desc: 'Characters, locations, notes' },
+    { to: `/projects/${project.id}/timeline`, title: 'Timeline', desc: 'Chronological story events' },
     { to: `/projects/${project.id}/chat`, title: 'Story Chat', desc: 'Project-aware AI assistant' },
   ];
 
@@ -70,6 +72,26 @@ export default function ProjectDashboard() {
           </Link>
         ))}
       </div>
+
+      <Card className="mt-6">
+        <h2 className="font-medium">Export</h2>
+        <p className="mt-1 text-sm text-slate-500">
+          Your work, in open formats — never locked in.
+        </p>
+        <div className="mt-3 flex flex-wrap gap-2">
+          {(
+            [
+              ['txt', 'Manuscript (.txt)'],
+              ['md', 'Manuscript (.md)'],
+              ['json', 'Full backup (.json)'],
+            ] as [ExportFormat, string][]
+          ).map(([fmt, label]) => (
+            <Button key={fmt} variant="secondary" onClick={() => exportProject(project.id, fmt)}>
+              {label}
+            </Button>
+          ))}
+        </div>
+      </Card>
     </div>
   );
 }

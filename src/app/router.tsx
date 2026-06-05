@@ -6,6 +6,7 @@ import ProjectsPage from '@/features/projects/ProjectsPage';
 import ProjectDashboard from '@/features/projects/ProjectDashboard';
 import EditorPage from '@/features/editor/EditorPage';
 import StoryBiblePage from '@/features/storybible/StoryBiblePage';
+import TimelinePage from '@/features/timeline/TimelinePage';
 import StoryChatPage from '@/features/ai/StoryChatPage';
 import SettingsPage from '@/features/settings/SettingsPage';
 
@@ -24,6 +25,7 @@ export const router = createBrowserRouter([
       { path: 'projects/:projectId', element: <ProjectDashboard /> },
       { path: 'projects/:projectId/write', element: <EditorPage /> },
       { path: 'projects/:projectId/bible', element: <StoryBiblePage /> },
+      { path: 'projects/:projectId/timeline', element: <TimelinePage /> },
       { path: 'projects/:projectId/chat', element: <StoryChatPage /> },
       { path: 'settings', element: <SettingsPage /> },
     ],

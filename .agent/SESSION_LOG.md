@@ -33,3 +33,35 @@ Phase 5 Timeline engine, then Phase 7 AI writing tools; add Firebase sync adapte
 
 ### Notes
 - All AI must route through the gateway; never send full manuscripts.
+
+## 2026-06-06
+
+### Contributor
+Claude Code (AI)
+
+### Completed
+- Initialized git, committed, and pushed to github.com/prjsab02/novelryt (main).
+  Resolved a credential conflict (cached `aisheebwork`) by clearing the GCM
+  github.com credential so the prjsab02 login was used.
+- Added docs/DEPLOYMENT.md (Cloudflare Pages auto-deploy settings).
+- Phase 7: AI writing tools (rewrite/expand/condense/summarize/improve-dialogue)
+  wired into the editor via a selection-based, suggestion-only AiAssistPanel.
+- Phase 14: Export service (manuscript TXT/Markdown + full JSON backup) + dashboard UI.
+- Phase 5: Timeline engine — StoryEvent entity (Dexie v2), store, chronological page,
+  router/nav/dashboard wiring.
+
+### Modified / created files
+- src/features/ai/tools.ts, src/features/editor/AiAssistPanel.tsx, EditorPage.tsx
+- src/features/export/export-service.ts, ProjectDashboard.tsx
+- src/features/timeline/{store.ts,TimelinePage.tsx}; types, schema, repositories
+- router.tsx, AppLayout.tsx; docs (DEPLOYMENT, FEATURE_CATALOG, CURRENT_STATE)
+
+### Current status
+Typecheck clean, 9/9 tests pass, production build OK. Pushed to GitHub.
+
+### Next recommended step
+Phase 8 diagnostics; Firebase auth+sync adapter; import + DOCX/PDF export.
+
+### Risks
+- Live AI still untested (no key in env). Cloudflare connection is a manual
+  dashboard step by the repo owner.
