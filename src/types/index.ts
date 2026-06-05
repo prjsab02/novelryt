@@ -23,6 +23,8 @@ export interface Project extends BaseEntity {
   status: ProjectStatus;
   ownerId: string;
   tags: string[];
+  /** Daily word-count goal for the progress tracker (PRD §101). Optional. */
+  dailyWordGoal?: number;
 }
 
 export interface Book extends BaseEntity {

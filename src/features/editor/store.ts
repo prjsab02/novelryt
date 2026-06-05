@@ -2,6 +2,7 @@ import { create } from 'zustand';
 import type { Chapter } from '@/types';
 import { chaptersRepo, booksRepo } from '@/services/db/repositories';
 import { countWords } from '@/lib/utils';
+import { recordTotal } from '@/features/stats/writing-stats';
 
 interface EditorState {
   projectId: string | null;
@@ -66,7 +67,13 @@ export const useEditorStore = create<EditorState>((set, get) => ({
       content,
       wordCount: countWords(content),
     });
-    set({ chapters: get().chapters.map((c) => (c.id === id ? updated : c)) });
+    const chapters = get().chapters.map((c) => (c.id === id ? updated : c));
+    set({ chapters });
+    // Snapshot the project's total words for the goals/streak tracker.
+    const projectId = get().projectId;
+    if (projectId) {
+      recordTotal(projectId, chapters.reduce((sum, c) => sum + c.wordCount, 0));
+    }
   },
   removeChapter: async (id) => {
     await chaptersRepo.remove(id);

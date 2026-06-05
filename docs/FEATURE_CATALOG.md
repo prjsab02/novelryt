@@ -27,6 +27,7 @@
 | FEATURE-022 | Diagnostics — Story Doctor (consistency/plot holes/arcs) | Implemented | High | Part 6 | quick/standard/deep modes, advisory |
 | FEATURE-023 | Export (TXT/MD/JSON backup) | Implemented | High | §128–§131 | DOCX/PDF/EPUB pending |
 | FEATURE-027 | Import (TXT/MD manuscript + JSON restore) | Implemented | High | §128, §214–§217 | chapter auto-detection |
+| FEATURE-029 | Writing goals & stats | Implemented | Medium | §101–§102, §233–§243 | daily goal, words today, streak |
 | FEATURE-028 | Getting-started guide (non-technical) | Implemented | High | — | docs/GETTING_STARTED.md |
 | FEATURE-026 | Deployment: GitHub + Cloudflare Pages | In Progress | High | §408–§411 | repo pushed; connect in CF dashboard (docs/DEPLOYMENT.md) |
 | FEATURE-025 | Knowledge/relationship graph | Planned | Medium | §170, §182 | React Flow |
