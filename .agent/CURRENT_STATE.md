@@ -41,9 +41,16 @@
 - **Auth simplified**: Google-only sign-in (Firebase) + offline guest mode;
   email/password removed.
 
+## 🚀 LIVE (2026-06-06)
+
+- Deployed to **https://novelryt.pages.dev** (Cloudflare Pages, git auto-deploy on
+  push to `main` — verified). Firebase configured (Google sign-in + Firestore sync).
+- AI verified end-to-end: `/api/ai` proxy with the 9-key server-side pool returns
+  Gemini responses. Default model **gemini-2.5-flash** (1.5-flash retired on v1beta).
+
 ## In progress
 
-- Cloudflare Pages connection + `GEMINI_API_KEYS` secret (manual owner steps).
+- Continuing feature build-out (export formats, graph, AI auto-extraction).
 
 ## Pending (next)
 

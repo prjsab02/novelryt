@@ -118,6 +118,8 @@ export default function ProjectDashboard() {
         <div className="mt-3 flex flex-wrap gap-2">
           {(
             [
+              ['docx', 'Word (.docx)'],
+              ['pdf', 'PDF (print)'],
               ['txt', 'Manuscript (.txt)'],
               ['md', 'Manuscript (.md)'],
               ['json', 'Full backup (.json)'],
