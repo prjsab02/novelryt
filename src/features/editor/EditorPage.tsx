@@ -15,6 +15,7 @@ export default function EditorPage() {
   const [draft, setDraft] = useState('');
   const [saveState, setSaveState] = useState<SaveState>('idle');
   const [selection, setSelection] = useState({ start: 0, end: 0 });
+  const [focus, setFocus] = useState(false);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   useEffect(() => {
@@ -89,8 +90,13 @@ export default function EditorPage() {
 
   return (
     <div className="flex h-full">
-      {/* Chapter list */}
-      <aside className="w-64 shrink-0 overflow-y-auto border-r border-slate-200 p-3 dark:border-slate-800">
+      {/* Chapter list (hidden in focus mode) */}
+      <aside
+        className={cx(
+          'w-64 shrink-0 overflow-y-auto border-r border-slate-200 p-3 dark:border-slate-800',
+          focus && 'hidden',
+        )}
+      >
         <div className="mb-3 flex items-center justify-between">
           <h2 className="text-sm font-semibold uppercase tracking-wide text-slate-500">
             Chapters
@@ -168,6 +174,13 @@ export default function EditorPage() {
                 <span>
                   {saveState === 'saving' ? 'Saving…' : saveState === 'saved' ? 'Saved' : ''}
                 </span>
+                <button
+                  className="rounded px-2 py-1 hover:bg-slate-200 dark:hover:bg-slate-800"
+                  onClick={() => setFocus((v) => !v)}
+                  title="Toggle focus mode"
+                >
+                  {focus ? 'Exit focus' : 'Focus'}
+                </button>
               </div>
             </header>
             <textarea
@@ -181,11 +194,13 @@ export default function EditorPage() {
               placeholder="Begin writing…"
               spellCheck
             />
-            <AiAssistPanel
-              selection={selectedText}
-              onReplace={(t) => applyText(t, 'replace')}
-              onInsert={(t) => applyText(t, 'insert')}
-            />
+            {!focus && (
+              <AiAssistPanel
+                selection={selectedText}
+                onReplace={(t) => applyText(t, 'replace')}
+                onInsert={(t) => applyText(t, 'insert')}
+              />
+            )}
           </>
         ) : (
           <div className="p-6">
