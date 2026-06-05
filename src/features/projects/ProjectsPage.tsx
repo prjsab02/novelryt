@@ -1,7 +1,8 @@
-import { useEffect, useState, type FormEvent } from 'react';
+import { useEffect, useRef, useState, type FormEvent } from 'react';
 import { Link } from 'react-router-dom';
 import { useProjectsStore } from './store';
 import { useAuthStore } from '@/features/auth/store';
+import { importFile } from '@/features/import/import-service';
 import { Button, Card, Input, Label, Select, Textarea, EmptyState } from '@/components/ui';
 import { formatDate } from '@/lib/utils';
 import type { ProjectStatus } from '@/types';
@@ -22,6 +23,9 @@ export default function ProjectsPage() {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [genre, setGenre] = useState('');
+  const [importing, setImporting] = useState(false);
+  const [importError, setImportError] = useState('');
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     void load();
@@ -43,14 +47,47 @@ export default function ProjectsPage() {
     setShowForm(false);
   }
 
+  async function handleImport(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file || !user) return;
+    setImportError('');
+    setImporting(true);
+    try {
+      await importFile(user.id, file);
+      await load();
+    } catch (err) {
+      setImportError((err as Error).message);
+    } finally {
+      setImporting(false);
+      if (fileInputRef.current) fileInputRef.current.value = '';
+    }
+  }
+
   return (
     <div className="mx-auto max-w-4xl p-6">
       <div className="mb-6 flex items-center justify-between">
         <h1 className="text-2xl font-semibold">Projects</h1>
-        <Button onClick={() => setShowForm((v) => !v)}>
-          {showForm ? 'Cancel' : 'New project'}
-        </Button>
+        <div className="flex gap-2">
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept=".txt,.md,.markdown,.json"
+            className="hidden"
+            onChange={handleImport}
+          />
+          <Button
+            variant="secondary"
+            disabled={importing}
+            onClick={() => fileInputRef.current?.click()}
+          >
+            {importing ? 'Importing…' : 'Import'}
+          </Button>
+          <Button onClick={() => setShowForm((v) => !v)}>
+            {showForm ? 'Cancel' : 'New project'}
+          </Button>
+        </div>
       </div>
+      {importError && <p className="mb-4 text-sm text-rose-500">{importError}</p>}
 
       {showForm && (
         <Card className="mb-6">

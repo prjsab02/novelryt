@@ -22,7 +22,9 @@
 | FEATURE-020 | Timeline engine | Implemented | High | §159–§165 | events CRUD + chronological view; conflict-detection pending |
 | FEATURE-021 | AI writing tools (rewrite/expand/condense/summarize/dialogue) | Implemented | High | §57–§61 | selection-based, suggestion-only |
 | FEATURE-022 | Diagnostics — Story Doctor (consistency/plot holes/arcs) | Implemented | High | Part 6 | quick/standard/deep modes, advisory |
-| FEATURE-023 | Export (TXT/MD/JSON backup) | Implemented | High | §128–§131 | DOCX/PDF/EPUB + import pending |
+| FEATURE-023 | Export (TXT/MD/JSON backup) | Implemented | High | §128–§131 | DOCX/PDF/EPUB pending |
+| FEATURE-027 | Import (TXT/MD manuscript + JSON restore) | Implemented | High | §128, §214–§217 | chapter auto-detection |
+| FEATURE-028 | Getting-started guide (non-technical) | Implemented | High | — | docs/GETTING_STARTED.md |
 | FEATURE-026 | Deployment: GitHub + Cloudflare Pages | In Progress | High | §408–§411 | repo pushed; connect in CF dashboard (docs/DEPLOYMENT.md) |
 | FEATURE-024 | Firebase sync adapter | Planned | High | §380–§388 | implements StorageAdapter |
 | FEATURE-025 | Knowledge/relationship graph | Planned | Medium | §170, §182 | React Flow |
