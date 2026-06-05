@@ -1,0 +1,8 @@
+# Cloudflare Pages config for NovelRyt.
+# Used by `wrangler pages dev` (local) and `wrangler pages deploy` / secret commands.
+name = "novelryt"
+pages_build_output_dir = "dist"
+compatibility_date = "2024-09-23"
+
+# Runtime secrets (e.g. GEMINI_API_KEYS) are NOT stored here — set them with
+# `npm run secrets:push` (which uses `wrangler pages secret put`). See docs/DEPLOYMENT.md.

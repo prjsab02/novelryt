@@ -11,7 +11,9 @@
     "typecheck": "tsc -b --noEmit",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "dev:cf": "wrangler pages dev -- npm run dev",
+    "secrets:push": "node scripts/push-secrets.mjs"
   },
   "dependencies": {
     "dexie": "^4.0.8",
@@ -33,6 +35,7 @@
     "typescript": "^5.5.4",
     "vite": "^5.4.3",
     "vite-plugin-pwa": "^0.20.5",
-    "vitest": "^2.0.5"
+    "vitest": "^2.0.5",
+    "wrangler": "^3.114.17"
   }
 }

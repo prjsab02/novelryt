@@ -64,13 +64,15 @@ export const onRequestPost = async (context: {
 
   let lastError = 'unknown error';
   // Try keys in rotated order; fail over on rate-limit/5xx, skip invalid keys.
+  const url = `${GEMINI_BASE}/${model}:generateContent`;
   for (const key of rotateKeys(keys)) {
-    const url = `${GEMINI_BASE}/${model}:generateContent?key=${encodeURIComponent(key)}`;
     let res: Response;
     try {
+      // Key passed as a header (not in the URL) — avoids leaking it into logs
+      // and works across Gemini key formats (AIza… and AQ.… keys).
       res = await fetch(url, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', 'x-goog-api-key': key },
         body: JSON.stringify(payload),
       });
     } catch (e) {

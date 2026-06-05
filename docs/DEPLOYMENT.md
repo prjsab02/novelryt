@@ -39,8 +39,23 @@ Gemini keys live **only** server-side, used by the Pages Function `functions/api
   (`key1,key2,key3`). Click **Encrypt**. Optional: `GEMINI_MODEL` (default `gemini-1.5-flash`).
 
 The browser never receives a key. The function rotates keys and fails over per request.
-Local Functions dev: put `GEMINI_API_KEYS=...` in `.dev.vars` and run
-`npx wrangler pages dev -- npm run dev`.
+
+**Set it via Wrangler (no dashboard):**
+```
+npx wrangler login            # one-time, opens a browser to authorize
+npm run secrets:push          # reads .dev.vars → sets GEMINI_API_KEYS on Pages
+```
+`npm run secrets:push` ([scripts/push-secrets.mjs](../scripts/push-secrets.mjs)) reads
+the keys from local `.dev.vars` (gitignored) and runs `wrangler pages secret put`.
+Requires the Pages project to already exist (repo connected — GETTING_STARTED Step 1).
+
+**Local Functions dev (test AI on your machine):**
+```
+npm run dev:cf                # = wrangler pages dev -- npm run dev (reads .dev.vars)
+```
+
+Firebase web config is committed in `.env.production` (public values, build-time) —
+no action needed for it.
 
 ## Local commands
 ```
