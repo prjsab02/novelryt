@@ -9,3 +9,6 @@ dist-ssr
 *.tsbuildinfo
 coverage
 .vite
+
+# Local Claude Code settings
+.claude/settings.local.json
