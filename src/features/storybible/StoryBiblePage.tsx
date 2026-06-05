@@ -3,11 +3,22 @@ import { useParams } from 'react-router-dom';
 import { useStoryBibleStore } from './store';
 import { Button, Card, Input, Textarea, Select, Label, EmptyState } from '@/components/ui';
 import { cx } from '@/lib/utils';
-import type { CharacterStatus } from '@/types';
+import type { CharacterStatus, LoreCategory } from '@/types';
 
-type Tab = 'characters' | 'locations' | 'notes';
-const TABS: Tab[] = ['characters', 'locations', 'notes'];
+type Tab = 'characters' | 'locations' | 'organizations' | 'lore' | 'notes';
+const TABS: Tab[] = ['characters', 'locations', 'organizations', 'lore', 'notes'];
 const CHAR_STATUSES: CharacterStatus[] = ['Active', 'Deceased', 'Missing', 'Retired'];
+const LORE_CATEGORIES: LoreCategory[] = [
+  'History',
+  'Culture',
+  'Religion',
+  'Politics',
+  'Magic',
+  'Technology',
+  'Economy',
+  'Language',
+  'Mythology',
+];
 
 export default function StoryBiblePage() {
   const { projectId } = useParams<{ projectId: string }>();
@@ -23,6 +34,8 @@ export default function StoryBiblePage() {
     const name = newName.trim();
     if (tab === 'characters') void store.addCharacter(name);
     else if (tab === 'locations') void store.addLocation(name);
+    else if (tab === 'organizations') void store.addOrganization(name);
+    else if (tab === 'lore') void store.addLore(name);
     else void store.addNote(name);
     setNewName('');
   }
@@ -150,6 +163,105 @@ export default function StoryBiblePage() {
                   rows={2}
                   value={l.description}
                   onChange={(e) => store.updateLocation(l.id, { description: e.target.value })}
+                />
+              </div>
+            </Card>
+          ))}
+        </div>
+      )}
+
+      {tab === 'organizations' && (
+        <div className="space-y-3">
+          {store.organizations.length === 0 && (
+            <EmptyState title="No organizations yet" hint="Guilds, kingdoms, factions…" />
+          )}
+          {store.organizations.map((o) => (
+            <Card key={o.id}>
+              <div className="flex items-center justify-between gap-2">
+                <Input
+                  className="font-medium"
+                  value={o.name}
+                  onChange={(e) => store.updateOrganization(o.id, { name: e.target.value })}
+                />
+                <Input
+                  className="max-w-[10rem]"
+                  placeholder="Kind (guild, army…)"
+                  value={o.kind}
+                  onChange={(e) => store.updateOrganization(o.id, { kind: e.target.value })}
+                />
+                <button
+                  className="text-rose-500 hover:underline"
+                  onClick={() => store.removeOrganization(o.id)}
+                >
+                  Delete
+                </button>
+              </div>
+              <div className="mt-3 grid gap-3 sm:grid-cols-2">
+                <div>
+                  <Label>Leader</Label>
+                  <Input
+                    value={o.leader}
+                    onChange={(e) => store.updateOrganization(o.id, { leader: e.target.value })}
+                  />
+                </div>
+                <div>
+                  <Label>Ideology</Label>
+                  <Input
+                    value={o.ideology}
+                    onChange={(e) => store.updateOrganization(o.id, { ideology: e.target.value })}
+                  />
+                </div>
+              </div>
+              <div className="mt-3">
+                <Label>Description</Label>
+                <Textarea
+                  rows={2}
+                  value={o.description}
+                  onChange={(e) => store.updateOrganization(o.id, { description: e.target.value })}
+                />
+              </div>
+            </Card>
+          ))}
+        </div>
+      )}
+
+      {tab === 'lore' && (
+        <div className="space-y-3">
+          {store.lore.length === 0 && (
+            <EmptyState title="No lore yet" hint="Magic systems, religions, history…" />
+          )}
+          {store.lore.map((l) => (
+            <Card key={l.id}>
+              <div className="flex items-center justify-between gap-2">
+                <Input
+                  className="font-medium"
+                  value={l.title}
+                  onChange={(e) => store.updateLore(l.id, { title: e.target.value })}
+                />
+                <Select
+                  className="w-auto"
+                  value={l.category}
+                  onChange={(e) =>
+                    store.updateLore(l.id, { category: e.target.value as LoreCategory })
+                  }
+                >
+                  {LORE_CATEGORIES.map((c) => (
+                    <option key={c}>{c}</option>
+                  ))}
+                </Select>
+                <button
+                  className="text-rose-500 hover:underline"
+                  onClick={() => store.removeLore(l.id)}
+                >
+                  Delete
+                </button>
+              </div>
+              <div className="mt-3">
+                <Label>Content</Label>
+                <Textarea
+                  rows={3}
+                  value={l.content}
+                  onChange={(e) => store.updateLore(l.id, { content: e.target.value })}
                 />
               </div>
             </Card>

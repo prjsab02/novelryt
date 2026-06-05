@@ -15,6 +15,8 @@
 | FEATURE-007 | Manuscript editor + autosave | Implemented | High | §87, §91 | debounced autosave, word count |
 | FEATURE-008 | Story Bible: characters | Implemented | High | §136–§147 | CRUD |
 | FEATURE-009 | Story Bible: locations | Implemented | Medium | §148–§152 | CRUD |
+| FEATURE-014 | Story Bible: organizations | Implemented | Medium | §153–§155 | CRUD |
+| FEATURE-015 | Story Bible: lore | Implemented | Medium | §80, §171–§180 | CRUD, categorized |
 | FEATURE-010 | Notes | Implemented | Medium | §103 | CRUD, pin |
 | FEATURE-011 | AI Gateway (multi-key) | Implemented | High | §50–§51, §263–§271 | round-robin + failover |
 | FEATURE-012 | Story Chat | Implemented | High | §53, §246 | project-aware, retrieval context |

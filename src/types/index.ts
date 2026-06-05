@@ -90,6 +90,33 @@ export interface Note extends BaseEntity {
   pinned: boolean;
 }
 
+export interface Organization extends BaseEntity {
+  projectId: string;
+  name: string;
+  kind: string;
+  description: string;
+  leader: string;
+  ideology: string;
+}
+
+export type LoreCategory =
+  | 'History'
+  | 'Culture'
+  | 'Religion'
+  | 'Politics'
+  | 'Magic'
+  | 'Technology'
+  | 'Economy'
+  | 'Language'
+  | 'Mythology';
+
+export interface Lore extends BaseEntity {
+  projectId: string;
+  title: string;
+  category: LoreCategory;
+  content: string;
+}
+
 export interface StoryEvent extends BaseEntity {
   projectId: string;
   title: string;

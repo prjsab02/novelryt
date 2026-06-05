@@ -12,6 +12,8 @@ import type {
   Note,
   ChatSession,
   StoryEvent,
+  Organization,
+  Lore,
 } from '@/types';
 
 /**
@@ -71,6 +73,8 @@ export const locationsRepo = new Repository<Location>(new DexieAdapter(db.locati
 export const notesRepo = new Repository<Note>(new DexieAdapter(db.notes));
 export const chatRepo = new Repository<ChatSession>(new DexieAdapter(db.chatSessions));
 export const eventsRepo = new Repository<StoryEvent>(new DexieAdapter(db.events));
+export const organizationsRepo = new Repository<Organization>(new DexieAdapter(db.organizations));
+export const loreRepo = new Repository<Lore>(new DexieAdapter(db.lore));
 
 /** Cascade-delete a project and all entities scoped to it. */
 export async function deleteProjectCascade(projectId: string): Promise<void> {
@@ -83,6 +87,8 @@ export async function deleteProjectCascade(projectId: string): Promise<void> {
     notesRepo.removeByProject(projectId),
     chatRepo.removeByProject(projectId),
     eventsRepo.removeByProject(projectId),
+    organizationsRepo.removeByProject(projectId),
+    loreRepo.removeByProject(projectId),
   ]);
   await projectsRepo.remove(projectId);
 }

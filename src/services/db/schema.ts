@@ -9,6 +9,8 @@ import type {
   Note,
   ChatSession,
   StoryEvent,
+  Organization,
+  Lore,
 } from '@/types';
 
 /**
@@ -26,6 +28,8 @@ export class NovelRytDB extends Dexie {
   notes!: Table<Note, string>;
   chatSessions!: Table<ChatSession, string>;
   events!: Table<StoryEvent, string>;
+  organizations!: Table<Organization, string>;
+  lore!: Table<Lore, string>;
 
   constructor() {
     super('novelryt');
@@ -42,6 +46,11 @@ export class NovelRytDB extends Dexie {
     // v2: add timeline events (Phase 5). Additive — no migration of existing data.
     this.version(2).stores({
       events: 'id, projectId, sequence',
+    });
+    // v3: expand Story Bible with organizations and lore. Additive.
+    this.version(3).stores({
+      organizations: 'id, projectId, name',
+      lore: 'id, projectId, category',
     });
   }
 }
