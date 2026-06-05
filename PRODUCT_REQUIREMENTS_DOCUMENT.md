@@ -6654,8 +6654,10 @@ Users must own private projects.
 
 Phase 1:
 
-* Email + Password
 * Google Sign-In
+
+> Revised 2026-06-06: email/password removed; Google sign-in only (plus an
+> offline guest mode when cloud auth is not configured).
 
 ---
 

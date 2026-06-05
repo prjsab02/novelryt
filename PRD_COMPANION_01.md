@@ -3249,20 +3249,19 @@ NovelRyt should support multiple Gemini API keys.
 
 ---
 
-# 265. USER-PROVIDED KEYS
+# 265. SERVER-SIDE KEYS
 
-Users may configure:
+> Revised 2026-06-06 (ADR 002): keys are held server-side, not entered by users
+> in the app. End users never see or provide a Gemini key.
+
+The site owner configures one or more Gemini API keys server-side as the
+Cloudflare secret `GEMINI_API_KEYS` (comma/newline-separated):
 
 ```text
-Key 1
-Key 2
-Key 3
-Key 4
-Key 5
-Key 6
+GEMINI_API_KEYS = Key 1, Key 2, Key 3, Key 4, Key 5, Key 6
 ```
 
-or more.
+or more. The server-side AI proxy rotates across them with automatic failover.
 
 ---
 
