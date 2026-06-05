@@ -36,7 +36,7 @@ Gemini keys live **only** server-side, used by the Pages Function `functions/api
 (ADR 002). Set a secret on the Pages project:
 
 - **Name:** `GEMINI_API_KEYS` — **Value:** one key, or several comma/newline-separated
-  (`key1,key2,key3`). Click **Encrypt**. Optional: `GEMINI_MODEL` (default `gemini-1.5-flash`).
+  (`key1,key2,key3`). Click **Encrypt**. Optional: `GEMINI_MODEL` (default `gemini-2.5-flash`).
 
 The browser never receives a key. The function rotates keys and fails over per request.
 

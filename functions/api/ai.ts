@@ -8,7 +8,7 @@
  * Workers tier; satisfies the $0-infrastructure goal without client-side keys.
  *
  * Configure: Cloudflare → Pages project → Settings → Variables → add secret
- * `GEMINI_API_KEYS`. Optional `GEMINI_MODEL` (default gemini-1.5-flash).
+ * `GEMINI_API_KEYS`. Optional `GEMINI_MODEL` (default gemini-2.5-flash).
  */
 import { classifyStatus, parseKeys, rotateKeys } from '../../src/lib/ai-key-pool';
 
@@ -55,7 +55,7 @@ export const onRequestPost = async (context: {
   const prompt = (body.prompt ?? '').trim();
   if (!prompt) return json({ error: 'Missing prompt.' }, 400);
 
-  const model = env.GEMINI_MODEL || 'gemini-1.5-flash';
+  const model = env.GEMINI_MODEL || 'gemini-2.5-flash';
   const payload = {
     contents: [{ role: 'user', parts: [{ text: prompt }] }],
     ...(body.system ? { systemInstruction: { parts: [{ text: body.system }] } } : {}),
