@@ -28,6 +28,7 @@
 | FEATURE-023 | Export (TXT/MD/DOCX/PDF/JSON) | Implemented | High | §128–§131 | DOCX via `docx`; PDF via print; EPUB pending |
 | FEATURE-027 | Import (TXT/MD manuscript + JSON restore) | Implemented | High | §128, §214–§217 | chapter auto-detection |
 | FEATURE-029 | Writing goals & stats | Implemented | Medium | §101–§102, §233–§243 | daily goal, words today, streak |
+| FEATURE-016 | AI entity auto-extraction | Implemented | High | §63–§64 | scan chapter → review → add to Story Bible (approval-gated) |
 | FEATURE-028 | Getting-started guide (non-technical) | Implemented | High | — | docs/GETTING_STARTED.md |
 | FEATURE-026 | Deployment: GitHub + Cloudflare Pages | In Progress | High | §408–§411 | repo pushed; connect in CF dashboard (docs/DEPLOYMENT.md) |
 | FEATURE-025 | Knowledge/relationship graph | Planned | Medium | §170, §182 | React Flow |

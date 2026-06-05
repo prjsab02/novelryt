@@ -4,6 +4,7 @@ import { useEditorStore } from './store';
 import { Button, Input, EmptyState } from '@/components/ui';
 import { countWords, debounce, cx } from '@/lib/utils';
 import AiAssistPanel from './AiAssistPanel';
+import ExtractPanel from './ExtractPanel';
 
 type SaveState = 'saved' | 'saving' | 'idle';
 
@@ -16,6 +17,7 @@ export default function EditorPage() {
   const [saveState, setSaveState] = useState<SaveState>('idle');
   const [selection, setSelection] = useState({ start: 0, end: 0 });
   const [focus, setFocus] = useState(false);
+  const [showExtract, setShowExtract] = useState(false);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   useEffect(() => {
@@ -174,6 +176,15 @@ export default function EditorPage() {
                 <span>
                   {saveState === 'saving' ? 'Saving…' : saveState === 'saved' ? 'Saved' : ''}
                 </span>
+                {!focus && (
+                  <button
+                    className="rounded px-2 py-1 hover:bg-slate-200 dark:hover:bg-slate-800"
+                    onClick={() => setShowExtract((v) => !v)}
+                    title="Find characters & places with AI"
+                  >
+                    Find entities
+                  </button>
+                )}
                 <button
                   className="rounded px-2 py-1 hover:bg-slate-200 dark:hover:bg-slate-800"
                   onClick={() => setFocus((v) => !v)}
@@ -194,6 +205,13 @@ export default function EditorPage() {
               placeholder="Begin writing…"
               spellCheck
             />
+            {!focus && showExtract && projectId && (
+              <ExtractPanel
+                projectId={projectId}
+                chapterContent={draft}
+                onClose={() => setShowExtract(false)}
+              />
+            )}
             {!focus && (
               <AiAssistPanel
                 selection={selectedText}
