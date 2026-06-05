@@ -40,6 +40,7 @@ export default function ProjectDashboard() {
     { to: `/projects/${project.id}/write`, title: 'Write', desc: 'Open the manuscript editor' },
     { to: `/projects/${project.id}/bible`, title: 'Story Bible', desc: 'Characters, locations, notes' },
     { to: `/projects/${project.id}/timeline`, title: 'Timeline', desc: 'Chronological story events' },
+    { to: `/projects/${project.id}/diagnostics`, title: 'Story Doctor', desc: 'AI consistency & plot analysis' },
     { to: `/projects/${project.id}/chat`, title: 'Story Chat', desc: 'Project-aware AI assistant' },
   ];
 

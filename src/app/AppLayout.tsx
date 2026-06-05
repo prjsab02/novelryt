@@ -42,6 +42,9 @@ export default function AppLayout() {
               <NavLink to={`/projects/${projectId}/timeline`} className={navClass}>
                 Timeline
               </NavLink>
+              <NavLink to={`/projects/${projectId}/diagnostics`} className={navClass}>
+                Story Doctor
+              </NavLink>
               <NavLink to={`/projects/${projectId}/chat`} className={navClass}>
                 Story Chat
               </NavLink>

@@ -25,6 +25,8 @@
 - **Phase 14 — Export**: manuscript TXT/Markdown + full JSON backup.
 - **Deployment**: repo initialized + pushed to github.com/prjsab02/novelryt;
   Cloudflare Pages settings documented in docs/DEPLOYMENT.md (connect in dashboard).
+- **Phase 8 — Diagnostics (Story Doctor)**: AI analysis with quick/standard/deep
+  modes over a token-conscious context (chapters + bible + timeline); advisory.
 
 ## In progress
 

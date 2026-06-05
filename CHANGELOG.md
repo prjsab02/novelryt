@@ -19,3 +19,9 @@ All notable changes are documented here. Format: Keep a Changelog; SemVer.
 - Phase 14 Export: manuscript TXT/Markdown and full JSON project backup.
 - Phase 5 Timeline engine: story events with chronological ordering and free-form date labels.
 - docs/DEPLOYMENT.md: Cloudflare Pages auto-deploy configuration.
+
+## [Unreleased] continued
+
+### Added
+- Phase 8 Diagnostics (Story Doctor): AI consistency/plot-hole/arc analysis with quick/standard/deep modes.
+- .gitattributes for LF normalization.
