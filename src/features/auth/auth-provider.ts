@@ -3,8 +3,8 @@ import { isFirebaseEnabled, firebaseAuth } from '@/services/firebase/config';
 
 /**
  * AuthProvider abstracts identity (PRD §355). Two implementations:
- * - LocalAuthProvider: offline, no backend (email → identity, no password).
- * - FirebaseAuthProvider: real accounts (email/password + Google), cross-device.
+ * - LocalAuthProvider: offline dev mode, no backend (instant guest session).
+ * - FirebaseAuthProvider: real accounts via Google sign-in, cross-device sync.
  * The active one is chosen from env (isFirebaseEnabled). The UI branches on `mode`.
  */
 export interface AuthProvider {
@@ -13,9 +13,7 @@ export interface AuthProvider {
   subscribe(cb: (user: User | null) => void): () => void;
   signOut(): Promise<void>;
   // Mode-specific (presence depends on `mode`):
-  signInLocal?(email: string, displayName?: string): Promise<User>;
-  signInEmail?(email: string, password: string): Promise<User>;
-  signUpEmail?(email: string, password: string, displayName?: string): Promise<User>;
+  signInLocal?(displayName?: string): Promise<User>;
   signInGoogle?(): Promise<User>;
 }
 
@@ -40,15 +38,15 @@ class LocalAuthProvider implements AuthProvider {
     }
   }
 
-  async signInLocal(email: string, displayName?: string): Promise<User> {
-    const normalized = email.trim().toLowerCase();
-    const user: User = {
-      id: `local:${normalized}`,
-      email: normalized,
-      displayName: displayName?.trim() || normalized.split('@')[0] || 'Writer',
+  async signInLocal(displayName?: string): Promise<User> {
+    // Offline guest session for local-first dev (no Firebase configured).
+    const existing = this.read();
+    const user: User = existing ?? {
+      id: `local:${crypto.randomUUID()}`,
+      email: '',
+      displayName: displayName?.trim() || 'Writer',
     };
     localStorage.setItem(STORAGE_KEY, JSON.stringify(user));
-    // Local subscribe doesn't push; the store updates optimistically on sign-in.
     return user;
   }
 
@@ -78,21 +76,6 @@ class FirebaseAuthProvider implements AuthProvider {
       });
     });
     return () => unsub();
-  }
-
-  async signInEmail(email: string, password: string): Promise<User> {
-    const { signInWithEmailAndPassword } = await import('firebase/auth');
-    const cred = await signInWithEmailAndPassword(firebaseAuth!, email.trim(), password);
-    return this.toUser(cred.user);
-  }
-
-  async signUpEmail(email: string, password: string, displayName?: string): Promise<User> {
-    const { createUserWithEmailAndPassword, updateProfile } = await import('firebase/auth');
-    const cred = await createUserWithEmailAndPassword(firebaseAuth!, email.trim(), password);
-    if (displayName?.trim()) {
-      await updateProfile(cred.user, { displayName: displayName.trim() });
-    }
-    return this.toUser(cred.user);
   }
 
   async signInGoogle(): Promise<User> {

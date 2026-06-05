@@ -1,4 +1,4 @@
-import { aiGateway } from '@/features/ai/gateway';
+import { runAI } from '@/features/ai/client';
 import {
   projectsRepo,
   chaptersRepo,
@@ -94,5 +94,5 @@ export async function runDiagnostics(
   const context = await gatherContext(projectId);
   const prompt =
     `${FOCUS[mode]}\n\nAnalyze the following story material and report findings.\n\n${context}`;
-  return aiGateway.run({ system: SYSTEM, prompt, temperature: 0.4 });
+  return runAI({ system: SYSTEM, prompt, temperature: 0.4 });
 }

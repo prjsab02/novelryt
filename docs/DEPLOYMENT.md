@@ -31,8 +31,16 @@ VITE_FIREBASE_API_KEY, VITE_FIREBASE_AUTH_DOMAIN, VITE_FIREBASE_PROJECT_ID,
 VITE_FIREBASE_STORAGE_BUCKET, VITE_FIREBASE_MESSAGING_SENDER_ID, VITE_FIREBASE_APP_ID
 ```
 
-`VITE_GEMINI_API_KEYS` is intentionally **not** set in hosting — users enter
-their own keys in-app (Settings), stored locally per device.
+### AI keys (server-side secret — required for AI features)
+Gemini keys live **only** server-side, used by the Pages Function `functions/api/ai.ts`
+(ADR 002). Set a secret on the Pages project:
+
+- **Name:** `GEMINI_API_KEYS` — **Value:** one key, or several comma/newline-separated
+  (`key1,key2,key3`). Click **Encrypt**. Optional: `GEMINI_MODEL` (default `gemini-1.5-flash`).
+
+The browser never receives a key. The function rotates keys and fails over per request.
+Local Functions dev: put `GEMINI_API_KEYS=...` in `.dev.vars` and run
+`npx wrangler pages dev -- npm run dev`.
 
 ## Local commands
 ```

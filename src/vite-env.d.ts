@@ -2,7 +2,8 @@
 /// <reference types="vite-plugin-pwa/client" />
 
 interface ImportMetaEnv {
-  readonly VITE_GEMINI_API_KEYS?: string;
+  // Gemini keys are NOT a client env var — they live server-side as the
+  // Cloudflare secret GEMINI_API_KEYS (see functions/api/ai.ts).
   readonly VITE_FIREBASE_API_KEY?: string;
   readonly VITE_FIREBASE_AUTH_DOMAIN?: string;
   readonly VITE_FIREBASE_PROJECT_ID?: string;

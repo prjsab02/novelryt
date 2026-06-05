@@ -7,9 +7,7 @@ interface AuthState {
   initialized: boolean;
   mode: 'local' | 'firebase';
   init: () => void;
-  signInLocal: (email: string, displayName?: string) => Promise<void>;
-  signInEmail: (email: string, password: string) => Promise<void>;
-  signUpEmail: (email: string, password: string, displayName?: string) => Promise<void>;
+  signInLocal: (displayName?: string) => Promise<void>;
   signInGoogle: () => Promise<void>;
   signOut: () => Promise<void>;
 }
@@ -22,19 +20,13 @@ export const useAuthStore = create<AuthState>((set) => ({
     // subscribe fires immediately with the current session, then on changes.
     authProvider.subscribe((user) => set({ user, initialized: true }));
   },
-  signInLocal: async (email, displayName) => {
-    const user = await authProvider.signInLocal!(email, displayName);
+  signInLocal: async (displayName) => {
+    const user = await authProvider.signInLocal!(displayName);
     set({ user, initialized: true });
-  },
-  signInEmail: async (email, password) => {
-    await authProvider.signInEmail!(email, password);
-    // onAuthStateChanged updates `user`.
-  },
-  signUpEmail: async (email, password, displayName) => {
-    await authProvider.signUpEmail!(email, password, displayName);
   },
   signInGoogle: async () => {
     await authProvider.signInGoogle!();
+    // onAuthStateChanged updates `user`.
   },
   signOut: async () => {
     await authProvider.signOut();

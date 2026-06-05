@@ -30,3 +30,7 @@ All notable changes are documented here. Format: Keep a Changelog; SemVer.
 - Firebase auth (email/password + Google) and Firestore cloud sync, env-gated.
 - docs/FIREBASE_SETUP.md and firestore.rules.
 - Story Bible: organizations and lore.
+
+### Changed (architecture)
+- AI keys moved server-side to a Cloudflare Pages Function proxy (multi-key rotation + failover); removed client gateway and in-app key UI.
+- Auth simplified to Google sign-in (+ offline guest); removed email/password.

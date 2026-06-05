@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { runWritingTool, TOOL_LABELS, type WritingTool } from '@/features/ai/tools';
-import { useSettingsStore } from '@/features/settings/store';
 import { Button } from '@/components/ui';
 
 const TOOLS: WritingTool[] = ['rewrite', 'expand', 'condense', 'summarize', 'improve-dialogue'];
@@ -20,7 +19,6 @@ interface Props {
  * (PRD §79, §493).
  */
 export default function AiAssistPanel({ selection, onReplace, onInsert }: Props) {
-  const hasKeys = useSettingsStore((s) => s.apiKeys.length > 0);
   const [busy, setBusy] = useState<WritingTool | null>(null);
   const [result, setResult] = useState('');
   const [activeTool, setActiveTool] = useState<WritingTool | null>(null);
@@ -50,16 +48,13 @@ export default function AiAssistPanel({ selection, onReplace, onInsert }: Props)
             key={t}
             variant="secondary"
             className="px-2 py-1 text-xs"
-            disabled={!selection || !!busy || !hasKeys}
+            disabled={!selection || !!busy}
             onClick={() => apply(t)}
           >
             {busy === t ? '…' : TOOL_LABELS[t]}
           </Button>
         ))}
-        {!hasKeys && (
-          <span className="text-xs text-amber-500">Add AI keys in Settings to enable.</span>
-        )}
-        {hasKeys && !selection && (
+        {!selection && (
           <span className="text-xs text-slate-400">Select text in the editor first.</span>
         )}
       </div>

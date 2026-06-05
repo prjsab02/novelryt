@@ -19,18 +19,28 @@
 
 Every future code push auto-deploys. No need to repeat these steps.
 
-## STEP 2 — Free AI key (enables AI features). Optional.
+## STEP 2 — Enable AI (set the server-side key). Owner task, ~3 min.
 
-1. Go to https://aistudio.google.com/app/apikey → sign in with Google.
-2. **Create API key** → copy the `AIza...` value.
-3. In the live app → **Settings** → paste into **API keys** → **Save keys**.
+AI runs through a secure server-side proxy — users never enter a key. You set the
+key(s) once in Cloudflare and the whole app's AI features turn on.
 
-The key stays only in your browser (your personal free quota). Multiple keys can
-be pasted one per line; the app rotates them with automatic failover.
+1. Get one or more free keys: https://aistudio.google.com/app/apikey → sign in →
+   **Create API key** → copy the `AIza...` value (repeat for more keys = more quota).
+2. Cloudflare dashboard → your **novelryt** Pages project → **Settings** →
+   **Variables and Secrets** → **Add** → under **Production**:
+   - Variable name: `GEMINI_API_KEYS`
+   - Value: your key, or several separated by commas: `key1,key2,key3`
+   - Click **Encrypt** (makes it a secret) → **Save**.
+3. **Deployments** → **Retry deployment** so the site picks up the new secret.
+
+That's it — Story Chat, Story Doctor, and the writing tools now work for everyone,
+with automatic rotation + failover across all the keys you provided.
 
 ## (Optional) Run it on your own computer
 Requires Node.js 20+ (https://nodejs.org). Then in the project folder:
 ```
 npm install
-npm run dev      # opens http://localhost:5173
+npm run dev      # opens http://localhost:5173 (writing works; AI needs the proxy)
 ```
+To test AI locally too, create a file `.dev.vars` with `GEMINI_API_KEYS=yourkey`
+and run `npx wrangler pages dev -- npm run dev` instead.

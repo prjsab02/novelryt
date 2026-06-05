@@ -3,20 +3,24 @@
 > Related: [ARCHITECTURE.md](./ARCHITECTURE.md), ADR 002, PRD Part 3 & Part 7.
 > Last updated: 2026-06-02.
 
-## AI Gateway
-Single entry point for all AI requests (`src/features/ai/gateway.ts`). UI and
-features never call providers directly (PRD §50). Responsibilities:
-key selection, rotation, failover, cooldown, request shaping, error handling.
+## Server-side AI proxy (ADR 002, revised)
+All AI requests go to a **Cloudflare Pages Function** at `/api/ai`
+(`functions/api/ai.ts`). The browser calls it via `src/features/ai/client.ts`
+(`runAI`). UI/features never call Gemini or handle a key directly (PRD §50).
 
-## Multi-key pool
-- Keys come from in-app Settings (stored locally, user-owned) or `VITE_GEMINI_API_KEYS`.
-- Selection strategy: round-robin across healthy keys.
-- On rate-limit/error: mark key cooling-down, fail over to next key (PRD §269).
-- Key states: Active | RateLimited | Disabled | Invalid (PRD §51).
+## Multi-key pool (server-side)
+- Keys live **only** on the server as the Cloudflare secret `GEMINI_API_KEYS`
+  (comma/newline-separated). The client never sees them.
+- The function uses `src/lib/ai-key-pool.ts` (pure, unit-tested): `parseKeys`,
+  `rotateKeys` (spread load), `classifyStatus` (failover vs skip-invalid).
+- Per request it tries keys in rotated order, failing over on 429/5xx and
+  skipping invalid (400/401/403) keys (PRD §269). The function is stateless, so
+  cross-request cooldown isn't tracked (documented trade-off).
 
 ## Provider abstraction
-The gateway targets the Gemini REST `generateContent` endpoint via `fetch`, behind
-an `AIProvider` interface, so OpenAI/local providers can be added later (PRD §392).
+The function targets the Gemini REST `generateContent` endpoint via `fetch`.
+Swapping providers means editing one server file (PRD §392); the client contract
+(`/api/ai` → `{text}`) is unchanged.
 
 ## Token conservation (mandatory — PRD §52, §272–§277)
 - Never send the full manuscript.

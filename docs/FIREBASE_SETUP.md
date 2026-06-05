@@ -14,10 +14,10 @@
 3. You'll see a `firebaseConfig` block. **Keep this page open** — you need these 6 values:
    `apiKey, authDomain, projectId, storageBucket, messagingSenderId, appId`.
 
-## C. Turn on Authentication
+## C. Turn on Authentication (Google sign-in)
 1. Left menu → **Build → Authentication** → **Get started**.
-2. **Sign-in method** tab → enable **Email/Password** → Save.
-3. (Optional) Enable **Google** → pick a support email → Save.
+2. **Sign-in method** tab → **Add new provider** → **Google** → toggle **Enable**
+   → choose a support email → **Save**. (Email/password is intentionally not used.)
 
 ## D. Turn on Firestore (the database)
 1. Left menu → **Build → Firestore Database** → **Create database**.
@@ -60,9 +60,9 @@ VITE_FIREBASE_APP_ID               = <appId>
    **Add domain** → enter your `novelryt.pages.dev` domain.
 
 ## Done
-Reload your live site. The login screen will now ask for a **password** and offer
-**Continue with Google**, and everything you write saves to the cloud and syncs
-across devices. No code changes needed — the app detects the config automatically.
+Reload your live site. The login screen now shows **Continue with Google**, and
+everything you write saves to the cloud and syncs across devices. No code changes
+needed — the app detects the config automatically.
 
 > Note: existing work created in local-first mode lives only in that browser and
 > is not auto-migrated. You can **Export → JSON backup** from a project (local mode)

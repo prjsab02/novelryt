@@ -1,10 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { aiGateway } from './gateway';
+import { runAI } from './client';
 import { buildStoryContext } from './context-builder';
 import { projectsRepo } from '@/services/db/repositories';
-import { useSettingsStore } from '@/features/settings/store';
-import { Button, Card, Textarea, EmptyState } from '@/components/ui';
+import { Button, Textarea, EmptyState } from '@/components/ui';
 import { newId, now, cx } from '@/lib/utils';
 import type { ChatMessage } from '@/types';
 
@@ -15,7 +14,6 @@ const SYSTEM_PROMPT =
 
 export default function StoryChatPage() {
   const { projectId } = useParams<{ projectId: string }>();
-  const apiKeys = useSettingsStore((s) => s.apiKeys);
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [input, setInput] = useState('');
   const [busy, setBusy] = useState(false);
@@ -48,7 +46,7 @@ export default function StoryChatPage() {
         projectTitle: project?.title ?? 'Untitled',
       });
       const prompt = `Story context:\n${context}\n\nWriter: ${text}`;
-      const reply = await aiGateway.run({ system: SYSTEM_PROMPT, prompt });
+      const reply = await runAI({ system: SYSTEM_PROMPT, prompt });
       setMessages((m) => [
         ...m,
         { id: newId(), role: 'assistant', content: reply, createdAt: now() },
@@ -67,18 +65,6 @@ export default function StoryChatPage() {
         Project-aware AI. It sees your characters, locations, and context — never
         your full manuscript.
       </p>
-
-      {apiKeys.length === 0 && (
-        <Card className="mb-4 border-amber-300 bg-amber-50 dark:border-amber-700 dark:bg-amber-950">
-          <p className="text-sm text-amber-800 dark:text-amber-200">
-            No AI keys configured. Add Gemini API keys in{' '}
-            <a href="/settings" className="font-medium underline">
-              Settings
-            </a>{' '}
-            to enable chat.
-          </p>
-        </Card>
-      )}
 
       <div className="flex-1 space-y-3 overflow-y-auto">
         {messages.length === 0 && (

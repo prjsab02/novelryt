@@ -1,4 +1,4 @@
-import { aiGateway } from './gateway';
+import { runAI } from './client';
 
 /**
  * AI writing tools (PRD §57–§61, Phase 7). Each tool transforms a piece of text
@@ -32,6 +32,6 @@ export async function runWritingTool(tool: WritingTool, text: string): Promise<s
   const trimmed = text.trim();
   if (!trimmed) throw new Error('Select some text first.');
   const prompt = `${INSTRUCTIONS[tool]}\n\n"""\n${trimmed.slice(0, 6000)}\n"""`;
-  const result = await aiGateway.run({ system: SYSTEM, prompt, temperature: 0.7 });
+  const result = await runAI({ system: SYSTEM, prompt, temperature: 0.7 });
   return result.trim();
 }

@@ -33,9 +33,17 @@
   persistence. Activates only when VITE_FIREBASE_* env vars are set; otherwise the
   app stays local-first. Setup: docs/FIREBASE_SETUP.md; rules: firestore.rules.
 
+- **AI re-architecture (2026-06-06)**: all Gemini keys moved **server-side** to a
+  Cloudflare Pages Function (`functions/api/ai.ts`) with multi-key rotation +
+  failover (pure logic in `src/lib/ai-key-pool.ts`). Client calls `/api/ai` via
+  `runAI`. Removed client-side gateway/provider and in-app key UI. Key = Cloudflare
+  secret `GEMINI_API_KEYS`.
+- **Auth simplified**: Google-only sign-in (Firebase) + offline guest mode;
+  email/password removed.
+
 ## In progress
 
-- Cloudflare Pages connection (manual dashboard step by repo owner).
+- Cloudflare Pages connection + `GEMINI_API_KEYS` secret (manual owner steps).
 
 ## Pending (next)
 

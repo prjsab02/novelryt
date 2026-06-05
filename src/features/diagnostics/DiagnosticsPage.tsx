@@ -6,7 +6,6 @@ import {
   MODE_HINTS,
   type DiagnosticsMode,
 } from './diagnostics-service';
-import { useSettingsStore } from '@/features/settings/store';
 import { Button, Card, EmptyState } from '@/components/ui';
 import { cx } from '@/lib/utils';
 
@@ -14,7 +13,6 @@ const MODES: DiagnosticsMode[] = ['quick', 'standard', 'deep'];
 
 export default function DiagnosticsPage() {
   const { projectId } = useParams<{ projectId: string }>();
-  const hasKeys = useSettingsStore((s) => s.apiKeys.length > 0);
   const [mode, setMode] = useState<DiagnosticsMode>('standard');
   const [report, setReport] = useState('');
   const [busy, setBusy] = useState(false);
@@ -58,16 +56,11 @@ export default function DiagnosticsPage() {
               {MODE_LABELS[m]}
             </button>
           ))}
-          <Button className="ml-auto" onClick={run} disabled={busy || !hasKeys}>
+          <Button className="ml-auto" onClick={run} disabled={busy}>
             {busy ? 'Analyzing…' : 'Run analysis'}
           </Button>
         </div>
         <p className="mt-2 text-xs text-slate-500">{MODE_HINTS[mode]}</p>
-        {!hasKeys && (
-          <p className="mt-2 text-xs text-amber-500">
-            Add Gemini API keys in Settings to run diagnostics.
-          </p>
-        )}
       </Card>
 
       {error && <p className="mb-4 text-sm text-rose-500">{error}</p>}
