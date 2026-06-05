@@ -1,5 +1,9 @@
+import type { Table } from 'dexie';
 import { db } from './schema';
 import { DexieAdapter } from './dexie-adapter';
+import { FirestoreAdapter } from './firestore-adapter';
+import type { StorageAdapter } from './storage-adapter';
+import { isFirebaseEnabled } from '@/services/firebase/config';
 import { newId, now } from '@/lib/utils';
 import type {
   BaseEntity,
@@ -21,8 +25,23 @@ import type {
  * these; they never import Dexie directly (CODING_RULES). `create`/`update`
  * own id + timestamp bookkeeping so callers pass plain data.
  */
+/**
+ * Choose the storage backend per collection: Firestore when Firebase is
+ * configured (cloud sync + offline), otherwise IndexedDB (local-first). The
+ * decision is made once at load from env; the Firestore adapter resolves the
+ * signed-in user lazily at call time (ADR 001).
+ */
+function makeAdapter<T extends BaseEntity & { projectId?: string }>(
+  collectionName: string,
+  table: Table<T, string>,
+): StorageAdapter<T> {
+  return isFirebaseEnabled
+    ? new FirestoreAdapter<T>(collectionName)
+    : new DexieAdapter<T>(table);
+}
+
 class Repository<T extends BaseEntity & { projectId?: string }> {
-  constructor(private readonly adapter: DexieAdapter<T>) {}
+  constructor(private readonly adapter: StorageAdapter<T>) {}
 
   list(): Promise<T[]> {
     return this.adapter.getAll();
@@ -64,17 +83,19 @@ class Repository<T extends BaseEntity & { projectId?: string }> {
   }
 }
 
-export const projectsRepo = new Repository<Project>(new DexieAdapter(db.projects));
-export const booksRepo = new Repository<Book>(new DexieAdapter(db.books));
-export const chaptersRepo = new Repository<Chapter>(new DexieAdapter(db.chapters));
-export const scenesRepo = new Repository<Scene>(new DexieAdapter(db.scenes));
-export const charactersRepo = new Repository<Character>(new DexieAdapter(db.characters));
-export const locationsRepo = new Repository<Location>(new DexieAdapter(db.locations));
-export const notesRepo = new Repository<Note>(new DexieAdapter(db.notes));
-export const chatRepo = new Repository<ChatSession>(new DexieAdapter(db.chatSessions));
-export const eventsRepo = new Repository<StoryEvent>(new DexieAdapter(db.events));
-export const organizationsRepo = new Repository<Organization>(new DexieAdapter(db.organizations));
-export const loreRepo = new Repository<Lore>(new DexieAdapter(db.lore));
+export const projectsRepo = new Repository<Project>(makeAdapter('projects', db.projects));
+export const booksRepo = new Repository<Book>(makeAdapter('books', db.books));
+export const chaptersRepo = new Repository<Chapter>(makeAdapter('chapters', db.chapters));
+export const scenesRepo = new Repository<Scene>(makeAdapter('scenes', db.scenes));
+export const charactersRepo = new Repository<Character>(makeAdapter('characters', db.characters));
+export const locationsRepo = new Repository<Location>(makeAdapter('locations', db.locations));
+export const notesRepo = new Repository<Note>(makeAdapter('notes', db.notes));
+export const chatRepo = new Repository<ChatSession>(makeAdapter('chatSessions', db.chatSessions));
+export const eventsRepo = new Repository<StoryEvent>(makeAdapter('events', db.events));
+export const organizationsRepo = new Repository<Organization>(
+  makeAdapter('organizations', db.organizations),
+);
+export const loreRepo = new Repository<Lore>(makeAdapter('lore', db.lore));
 
 /** Cascade-delete a project and all entities scoped to it. */
 export async function deleteProjectCascade(projectId: string): Promise<void> {

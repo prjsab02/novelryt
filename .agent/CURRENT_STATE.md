@@ -27,6 +27,11 @@
   Cloudflare Pages settings documented in docs/DEPLOYMENT.md (connect in dashboard).
 - **Phase 8 — Diagnostics (Story Doctor)**: AI analysis with quick/standard/deep
   modes over a token-conscious context (chapters + bible + timeline); advisory.
+- **Story Bible expanded**: organizations + categorized lore (Dexie v3).
+- **Phase 1/15 — Firebase (env-gated)**: real auth (email/password + Google) via
+  FirebaseAuthProvider and cloud sync via a Firestore StorageAdapter with offline
+  persistence. Activates only when VITE_FIREBASE_* env vars are set; otherwise the
+  app stays local-first. Setup: docs/FIREBASE_SETUP.md; rules: firestore.rules.
 
 ## In progress
 

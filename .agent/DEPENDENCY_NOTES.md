@@ -15,9 +15,9 @@
 | vite-plugin-pwa | PWA manifest + SW | PRD §293 PWA requirement. |
 | vitest | Testing | Vite-native test runner. |
 
+| firebase | Auth + Firestore (cloud sync) | Env-gated (ADR 001). Firestore offline persistence gives sync + conflict handling. See DEBT-006 (lazy-load to trim bundle). |
+
 ## Deliberately NOT added yet
-- **firebase** — added when the cloud sync adapter lands (keeps bundle small,
-  avoids unused SDK). Gateway/storage interfaces are ready for it.
 - **@google/generative-ai** — AI Gateway calls the Gemini REST endpoint via
   `fetch` to stay provider-agnostic and dependency-light.
 - DOCX/PDF/EPUB libs — added with the export feature (Phase 14).

@@ -25,3 +25,8 @@ All notable changes are documented here. Format: Keep a Changelog; SemVer.
 ### Added
 - Phase 8 Diagnostics (Story Doctor): AI consistency/plot-hole/arc analysis with quick/standard/deep modes.
 - .gitattributes for LF normalization.
+
+### Added (Firebase increment)
+- Firebase auth (email/password + Google) and Firestore cloud sync, env-gated.
+- docs/FIREBASE_SETUP.md and firestore.rules.
+- Story Bible: organizations and lore.

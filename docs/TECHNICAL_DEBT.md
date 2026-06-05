@@ -5,8 +5,10 @@
 
 | ID | Description | Reason | Impact | Risk | Priority | Proposed resolution | Status |
 |---|---|---|---|---|---|---|---|
-| DEBT-001 | Auth is a local stub (email → identity, no password/verification) | No Firebase creds provisioned; unblock local-first dev | No real authn; single-device | Medium | High | Add Firebase Auth adapter implementing `AuthProvider` | Open |
-| DEBT-002 | No cloud sync; data is per-device IndexedDB only | Firebase adapter not built yet (ADR 001) | No cross-device | Medium | High | Build `StorageAdapter` Firebase impl + sync/conflict logic | Open |
+| DEBT-001 | Auth is a local stub when Firebase is not configured | Local-first default | No real authn in local mode | Low | Medium | Firebase Auth adapter built; activates via env (docs/FIREBASE_SETUP.md) | Resolved (env-gated) |
+| DEBT-002 | Cloud sync requires Firebase config | Local-first default | Per-device until configured | Low | Medium | Firestore adapter built (offline persistence = sync + conflict); activates via env | Resolved (env-gated) |
+| DEBT-006 | Firebase SDK bundled even in local mode (~adds to bundle) | config.ts statically imports app/auth/firestore | Larger initial download | Low | Low | Lazy-load firebase modules when isFirebaseEnabled | Open |
+| DEBT-007 | Local→cloud data not auto-migrated on first sign-in | Distinct stores; safe default | Manual JSON export/import needed | Low | Low | Optional one-time migration prompt | Open |
 | DEBT-003 | AI keys held client-side (no server proxy) | Static-hosting constraint (ADR 002) | User's own keys visible to that user (acceptable) | Low | Low | Optional serverless proxy if a backend is added | Open |
 | DEBT-004 | Editor is plaintext/markdown textarea (no rich formatting UI) | Scope/performance for MVP | Limited formatting | Low | Medium | Add lightweight rich-text or markdown toolbar | Open |
 | DEBT-005 | Scenes modeled in data layer but no dedicated UI yet | MVP focuses on chapter-level writing | Sub-chapter structure unavailable | Low | Medium | Add scene management under chapters (PRD §96) | Open |

@@ -9,7 +9,8 @@
 | FEATURE-001 | Documentation/memory system | Implemented | High | Workflow | `.agent/` + `docs/` |
 | FEATURE-002 | App foundation (PWA shell) | Implemented | High | §289–§346 | Vite/React/TS/Tailwind |
 | FEATURE-003 | Offline-first data layer | Implemented | High | §378–§383 | Dexie + StorageAdapter |
-| FEATURE-004 | Authentication | Implemented* | High | §355–§357 | *local stub; Firebase adapter pending (DEBT-001) |
+| FEATURE-004 | Authentication | Implemented | High | §355–§357 | local mode + Firebase (email/password + Google), env-gated |
+| FEATURE-024 | Firebase cloud sync | Implemented | High | §380–§388 | Firestore adapter w/ offline persistence; env-gated (was Planned) |
 | FEATURE-005 | Project management + dashboard | Implemented | High | §536, §85 | CRUD |
 | FEATURE-006 | Writing system (chapters/scenes) | Implemented | High | §95–§96 | reorder/rename/delete |
 | FEATURE-007 | Manuscript editor + autosave | Implemented | High | §87, §91 | debounced autosave, word count |
@@ -28,7 +29,6 @@
 | FEATURE-027 | Import (TXT/MD manuscript + JSON restore) | Implemented | High | §128, §214–§217 | chapter auto-detection |
 | FEATURE-028 | Getting-started guide (non-technical) | Implemented | High | — | docs/GETTING_STARTED.md |
 | FEATURE-026 | Deployment: GitHub + Cloudflare Pages | In Progress | High | §408–§411 | repo pushed; connect in CF dashboard (docs/DEPLOYMENT.md) |
-| FEATURE-024 | Firebase sync adapter | Planned | High | §380–§388 | implements StorageAdapter |
 | FEATURE-025 | Knowledge/relationship graph | Planned | Medium | §170, §182 | React Flow |
 | FEATURE-030 | Collaboration | Planned | Low | §114–§120 | post-MVP |
 | FEATURE-031 | Voice dictation | Planned | Low | §121–§122 | post-MVP |
